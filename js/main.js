@@ -80,10 +80,10 @@ const checkState = () => {
     }
 };
 
-const getNewWord = () => {
-    const res = fetch(
+async function getNewWord() {
+    let res = await fetch(
         "https://github.com/Fadeness/Typegame/blob/master/resource/wordlist.txt"
     );
-    const txt = res.text();
-    console.log(txt);
-};
+    let txt = await res.text();
+    return txt.split(/\s+/);
+}
