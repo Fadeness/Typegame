@@ -81,6 +81,9 @@ const checkState = () => {
 };
 
 const getNewWord = () => {
-    const wordList = fetch("../resource/wordlist.txt");
-    console.log(wordList);
+    const res = fetch(
+        "https://github.com/Fadeness/Typegame/blob/master/resource/wordlist.txt"
+    );
+    const txt = res.text();
+    console.log(txt);
 };
