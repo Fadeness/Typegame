@@ -85,5 +85,6 @@ const getNewWord = () => {
         "https://github.com/Fadeness/Typegame/blob/master/resource/wordlist.txt"
     );
     const txt = res.text();
+    
     console.log(txt);
 };
