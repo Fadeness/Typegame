@@ -6,6 +6,7 @@ const playerScore = document.getElementById("score");
 const topScore = document.getElementById("bestScore");
 const info = document.getElementById("info");
 const playerTime = document.getElementById("time");
+const wordDisplay = document.getElementById("word");
 const tl = new TimelineLite();
 
 let score = 0;
@@ -20,6 +21,8 @@ if (localStorage.bestscore) {
     topScore.innerHTML = bestScore;
 }
 
+let words = [];
+
 playBtn.addEventListener("click", () => {
     tl.to(infoPage, 0.4, { opacity: "0", zIndex: "1" }).to(
         gamePage,
@@ -28,9 +31,12 @@ playBtn.addEventListener("click", () => {
         "+=0.2"
     );
 
+    getWordList().then(res => {
+        words = res;
+    });
     playerInput.focus();
 
-    check = setInterval(checkState, 50);
+    check = setInterval(checkStatus, 50);
 
     playerInput.addEventListener("input", () => {
         info.innerHTML = "[ Type the word ]";
@@ -63,11 +69,12 @@ const countDown = () => {
     }
 };
 
-const checkState = () => {
+const checkStatus = () => {
     if (time === 0) {
         isPlaying = false;
         playerInput.value = "";
-        info.innerHTML = "[ Game Over!! Type to restart.]";
+        alert("Game over!!!");
+        info.innerHTML = "[ Type to restart.]";
         window.clearInterval(timeControl);
         time = 5;
         playerTime.innerHTML = time + " ";
@@ -80,11 +87,16 @@ const checkState = () => {
     }
 };
 
-async function getNewWord() {
+async function getWordList() {
     let res = await fetch(
-        "https://github.com/Fadeness/Typegame/blob/master/resource/wordlist.txt",
-        { mode: "no-cors" }
+        "https://blog.kyofer.com/Typegame/resource/wordlist.txt"
     );
+    console.log(res);
     let txt = await res.text();
     return txt.split(/\s+/);
 }
+
+const getNewWord = () => {
+    let number = Math.floor(Math.random() * words.length);
+    wordDisplay.innerHTML = words[number];
+};
