@@ -31,9 +31,13 @@ playBtn.addEventListener("click", () => {
         "+=0.2"
     );
 
-    getWordList().then(res => {
-        words = res;
-    });
+    getWordList()
+        .then(res => {
+            words = res;
+        })
+        .then(() => {
+            getNewWord();
+        });
     playerInput.focus();
 
     check = setInterval(checkStatus, 50);
