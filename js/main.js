@@ -23,6 +23,15 @@ if (localStorage.bestscore) {
 
 let words = [];
 
+getWordList()
+    .then(res => {
+        words = res;
+        console.log("word list available");
+    })
+    .then(() => {
+        getNewWord();
+    });
+
 playBtn.addEventListener("click", () => {
     tl.to(infoPage, 0.4, { opacity: "0", zIndex: "1" }).to(
         gamePage,
@@ -31,13 +40,6 @@ playBtn.addEventListener("click", () => {
         "+=0.2"
     );
 
-    getWordList()
-        .then(res => {
-            words = res;
-        })
-        .then(() => {
-            getNewWord();
-        });
     playerInput.focus();
 
     check = setInterval(checkStatus, 50);
@@ -95,7 +97,6 @@ async function getWordList() {
     let res = await fetch(
         "https://blog.kyofer.com/Typegame/resource/wordlist.txt"
     );
-    console.log(res);
     let txt = await res.text();
     return txt.split(/\s+/);
 }
